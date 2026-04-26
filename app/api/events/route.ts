@@ -16,49 +16,66 @@ export async function GET() {
     }
 }
 
-export async function OPTIONS() {
-    return new NextResponse(null, {
-        status: 204,
-        headers: {
-            Allow: "GET, POST, OPTIONS",
-        },
-    });
-}
 
 export async function POST(req: NextRequest) {
     try {
         await connectDB();
 
-        const contentType = req.headers.get("content-type") ?? "";
-        let eventData: Record<string, unknown>;
+        const body = await req.json();
 
-        if (contentType.includes("application/json")) {
-            const body = await req.json();
-            if (!body || typeof body !== "object" || Array.isArray(body)) {
-                return NextResponse.json({ message: "Invalid JSON payload" }, { status: 400 });
-            }
-            eventData = body as Record<string, unknown>;
-        } else {
-            const formData = await req.formData();
-            eventData = Object.fromEntries(formData.entries());
+        const {
+            title,
+            description,
+            overview,
+            image,
+            venue,
+            location,
+            date,
+            time,
+            mode,
+            audience,
+            agenda,
+            organizer,
+            tags
+        } = body;
+
+        if (
+            !title ||
+            !description ||
+            !overview ||
+            !image ||
+            !venue ||
+            !location ||
+            !date ||
+            !time ||
+            !mode ||
+            !audience ||
+            !agenda ||
+            !organizer ||
+            !tags
+        ) {
+            return NextResponse.json({ error: "All fields are requiered" }, { status: 400 });
         }
 
-        const createdEvent = await Event.create(eventData);
+        const event = await Event.create({
+            title,
+            description,
+            overview,
+            image,
+            venue,
+            location,
+            date,
+            time,
+            mode,
+            audience,
+            agenda,
+            organizer,
+            tags,
+        });
 
-        return NextResponse.json({ message: "Event created successfully", event: createdEvent }, { status: 201 });
-    } catch (error) {
-        console.error(error);
-
-        if (error && typeof error === "object" && "name" in error && error.name === "ValidationError") {
-            return NextResponse.json(
-                { message: "Validation failed", error: error instanceof Error ? error.message : "Invalid input" },
-                { status: 400 }
-            );
-        }
-
-        return NextResponse.json(
-            { message: "Event creation failed", error: error instanceof Error ? error.message : "Unknown error" },
-            { status: 500 }
-        );
+        return NextResponse.json(event, { status: 201 });
+    } catch (e: any) {
+        console.log(e);
+        return NextResponse.json({ e: e.message || "Server error" }, { status: 500 })
     }
 }
