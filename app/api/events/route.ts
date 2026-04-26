@@ -21,61 +21,21 @@ export async function POST(req: NextRequest) {
     try {
         await connectDB();
 
-        const body = await req.json();
+        const theFormData = await req.formData();
 
-        const {
-            title,
-            description,
-            overview,
-            image,
-            venue,
-            location,
-            date,
-            time,
-            mode,
-            audience,
-            agenda,
-            organizer,
-            tags
-        } = body;
+        let event;
 
-        if (
-            !title ||
-            !description ||
-            !overview ||
-            !image ||
-            !venue ||
-            !location ||
-            !date ||
-            !time ||
-            !mode ||
-            !audience ||
-            !agenda ||
-            !organizer ||
-            !tags
-        ) {
-            return NextResponse.json({ error: "All fields are requiered" }, { status: 400 });
+        try {
+            event = Object.fromEntries(theFormData.entries());
+        } catch (e) {
+            return NextResponse.json({ message: 'invalid json data format' }, { status: 400 })
         }
 
-        const event = await Event.create({
-            title,
-            description,
-            overview,
-            image,
-            venue,
-            location,
-            date,
-            time,
-            mode,
-            audience,
-            agenda,
-            organizer,
-            tags,
-        });
+        const createdEvent = await Event.create(event);
+        return NextResponse.json({ message: 'event created successfully', event: createdEvent }, { status: 201 })
 
-        return NextResponse.json(event, { status: 201 });
-    } catch (e: any) {
+    } catch (e) {
         console.log(e);
-        return NextResponse.json({ e: e.message || "Server error" }, { status: 500 })
+        return NextResponse.json({ message: 'Event creation failed', e: e instanceof Error ? e.message : 'Unknown' }, { status: 500 })
     }
 }
