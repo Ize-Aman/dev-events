@@ -1,9 +1,9 @@
-import cloudinary from "@/lib/cloudinary";
-
 import { Event } from "@/database";
 import connectDB from "@/lib/mongodb";
 
 import { NextRequest, NextResponse } from "next/server";
+
+const X02_Key = process.env.X02_PUBLIC_KEY;
 
 export async function GET() {
     try {
@@ -34,26 +34,48 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'invalid json data format' }, { status: 400 })
         }
 
-        const file = theFormData.get('image') as File;
-        if (!file) return NextResponse.json({ message: 'image file is requiered' }, { status: 400 });
+        const file = (theFormData.get('image') || theFormData.get('posterImage')) as File | null;
+        if (!file) return NextResponse.json({ message: 'image file is required' }, { status: 400 });
 
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
+        if (!X02_Key) {
+            return NextResponse.json({ message: 'x02 api key is missing' }, { status: 500 });
+        }
 
-        const uploadResult = await new Promise((resolve, reject) => {
-            cloudinary.uploader.upload_stream({ resource_type: 'image', folder: 'DevEvent' }, (error, result) => {
-                if (error) return reject(error);
-                resolve(result);
-            }).end(buffer);
+        const uploadFormData = new FormData();
+        uploadFormData.append("file", file);
+        uploadFormData.append("expiry", "1d");
+
+        const postImage = await fetch("https://up.x02.me/api/upload?format=json", {
+            method: "POST",
+            headers: { "x-api-key": X02_Key },
+            body: uploadFormData
         });
 
-        event.image = (uploadResult as { secure_url: string }).secure_url;
+        const uploadResult = await postImage.json();
+        const uploadedImageUrl = uploadResult?.data?.url;
 
+        if (!postImage.ok || !uploadResult?.success || !uploadedImageUrl) {
+            return NextResponse.json(
+                {
+                    message: 'failed to upload image to x02',
+                    error: uploadResult?.error || 'invalid upload response',
+                },
+                { status: 502 }
+            );
+        }
+
+        event.image = uploadedImageUrl;
         const createdEvent = await Event.create(event);
         return NextResponse.json({ message: 'event created successfully', event: createdEvent }, { status: 201 })
 
-    } catch (e: any) {
+    } catch (e: unknown) {
         console.log(e);
-        return NextResponse.json({ message: 'Event creation failed', e: e.message }, { status: 500 })
+        return NextResponse.json(
+            {
+                message: 'Event creation failed',
+                error: e instanceof Error ? e.message : 'Unknown error',
+            },
+            { status: 500 }
+        )
     }
 }
