@@ -9,7 +9,8 @@ export async function GET() {
     try {
         await connectDB();
         const events = await Event.find().sort({ createdAt: -1 }).lean();
-        return NextResponse.json({ events }, { status: 200 });
+
+        return NextResponse.json({ message: 'Events fetched successfully', events }, { status: 200 });
     } catch (error) {
         console.error(error);
         return NextResponse.json(
@@ -43,7 +44,6 @@ export async function POST(req: NextRequest) {
 
         const uploadFormData = new FormData();
         uploadFormData.append("file", file);
-        uploadFormData.append("expiry", "1d");
 
         const postImage = await fetch("https://up.x02.me/api/upload?format=json", {
             method: "POST",
