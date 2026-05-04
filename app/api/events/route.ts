@@ -4,6 +4,7 @@ import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 const X02_Key = process.env.X02_PUBLIC_KEY;
+const X02_Folder_Id = process.env.X02_PUBLIC_FOLDER_ID;
 
 export async function GET() {
     try {
@@ -38,6 +39,9 @@ export async function POST(req: NextRequest) {
         const file = (theFormData.get('image') || theFormData.get('posterImage')) as File | null;
         if (!file) return NextResponse.json({ message: 'image file is required' }, { status: 400 });
 
+        let tags = JSON.parse(theFormData.get('tags') as string);
+        let agenda = JSON.parse(theFormData.get('agenda') as string);
+
         if (!X02_Key) {
             return NextResponse.json({ message: 'x02 api key is missing' }, { status: 500 });
         }
@@ -45,13 +49,18 @@ export async function POST(req: NextRequest) {
         const uploadFormData = new FormData();
         uploadFormData.append("file", file);
 
+        //upload image to X02
+
         const postImage = await fetch("https://up.x02.me/api/upload?format=json", {
             method: "POST",
             headers: { "x-api-key": X02_Key },
             body: uploadFormData
         });
 
+        //get the uploaded image URL and filename
+
         const uploadResult = await postImage.json();
+        const uploadedImageName = uploadResult?.data?.filename;
         const uploadedImageUrl = uploadResult?.data?.url;
 
         if (!postImage.ok || !uploadResult?.success || !uploadedImageUrl) {
@@ -64,8 +73,30 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        //move the uploaded image to the approprate folder in X02
+
+        const moveToFolder = await fetch(`https://up.x02.me/api/user/images/${uploadedImageName}/move`, {
+            method: "PATCH",
+            headers: {
+                "x-api-key": X02_Key,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ folderId: X02_Folder_Id }),
+        });
+
+        const moveImage = await moveToFolder.json();
+
+        if (!moveImage || !moveImage.success) {
+            return NextResponse.json({ message: 'unable to move file to folder' }, { status: 500 })
+        }
+
+        /*
+        * upload the Event updating the image URL you get from X02
+        * update the Tags and Agenda field
+        */
+
         event.image = uploadedImageUrl;
-        const createdEvent = await Event.create(event);
+        const createdEvent = await Event.create({ ...event, tags: tags, agenda: agenda });
         return NextResponse.json({ message: 'event created successfully', event: createdEvent }, { status: 201 })
 
     } catch (e: unknown) {
