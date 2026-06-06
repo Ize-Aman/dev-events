@@ -3,20 +3,17 @@
 import { createBooking } from "@/lib/actions/booking.action";
 import { useState } from "react";
 
-const BookEvent = ({ slug, eventID }: { eventID: string, slug: string }) => {
+const BookEvent = ({ slug, eventId }: { eventId: string, slug: string }) => {
     const [email, setEmail] = useState('');
     const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = async (e: React.SubmitEvent) => {
-        const { success, error } = await createBooking({ eventID, slug, email })
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const { success, error } = await createBooking({ eventId, email })
 
         if (success) setSubmitted(true);
         else console.error('Booking creation failed', error)
-        e.preventDefault();
-
-        setTimeout(() => {
-            setSubmitted(true);
-        }, 1000)
     }
 
     return (

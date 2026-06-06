@@ -46,7 +46,7 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> 
 
     const request = fetch(`${BASE_URL}/api/events/${slug}`);
     const { event } = await (await request).json();
-    const { description, image, overview, date, time, location, mode, agenda, audience, organizer, tags } = event;
+    const { _id, description, image, overview, date, time, location, mode, agenda, audience, organizer, tags } = event;
 
     const bookings = 10;
 
@@ -98,7 +98,7 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> 
                             <p className="text-sm">Be the first to book your spot</p>
                         )}
 
-                        <BookEvent eventID={event.id} slug={event.slug} />
+                        <BookEvent eventId={event._id} slug={event.slug} />
                     </div>
                 </aside>
             </div>

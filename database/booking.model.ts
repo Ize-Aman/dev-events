@@ -3,7 +3,7 @@ import Event from './event.model';
 
 // TypeScript interface for Booking document
 export interface IBooking extends Document {
-    eventId: Types.ObjectId;
+    eventId: string;
     email: string;
     createdAt: Date;
     updatedAt: Date;
@@ -12,7 +12,7 @@ export interface IBooking extends Document {
 const BookingSchema = new Schema<IBooking>(
     {
         eventId: {
-            type: Schema.Types.ObjectId,
+            type: String,
             ref: 'Event',
             required: [true, 'Event ID is required'],
         },
