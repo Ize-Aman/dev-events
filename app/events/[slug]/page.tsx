@@ -41,10 +41,12 @@ const EventTags = ({ tags }: { tags: string[] }) => {
 };
 
 const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+    'use cache'
     const { slug } = await params;
 
     const request = fetch(`${BASE_URL}/api/events/${slug}`);
-    const { event: { description, image, overview, date, time, location, mode, agenda, audience, organizer, tags } } = await (await request).json()
+    const { event } = await (await request).json();
+    const { description, image, overview, date, time, location, mode, agenda, audience, organizer, tags } = event;
 
     const bookings = 10;
 
@@ -96,7 +98,7 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> 
                             <p className="text-sm">Be the first to book your spot</p>
                         )}
 
-                        <BookEvent />
+                        <BookEvent eventID={event.id} slug={event.slug} />
                     </div>
                 </aside>
             </div>

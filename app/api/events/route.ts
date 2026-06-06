@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'invalid json data format' }, { status: 400 })
         }
 
-        const file = (theFormData.get('image') || theFormData.get('posterImage')) as File | null;
+        const file = (theFormData.get('image')) as File | null;
         if (!file) return NextResponse.json({ message: 'image file is required' }, { status: 400 });
 
         let tags = JSON.parse(theFormData.get('tags') as string);
