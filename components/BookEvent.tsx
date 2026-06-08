@@ -6,6 +6,7 @@ import { useState } from "react";
 const BookEvent = ({ slug, eventId }: { eventId: string, slug: string }) => {
     const [email, setEmail] = useState('');
     const [submitted, setSubmitted] = useState(false);
+    const [registered, setRegistered] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -13,13 +14,16 @@ const BookEvent = ({ slug, eventId }: { eventId: string, slug: string }) => {
         const { success, error } = await createBooking({ eventId, email })
 
         if (success) setSubmitted(true);
-        else console.error('Booking creation failed', error)
+        else if (error?.name === 'MongoServerError') setRegistered(true);
+        else console.error('Booking creation failed', error);
     }
 
     return (
         <div id="book-event">
             {submitted ? (
                 <p className="text-sm">Thank you for signing up!</p>
+            ) : registered ? (
+                <p className="text-sm">Email already registered!</p>
             ) : (
                 <form onSubmit={handleSubmit}>
                     <div>
