@@ -251,10 +251,7 @@
     @apply bg-dark-100 text-light-100 text-xs rounded-[6px] px-5 py-2;
   }
 
-  #book-event,
-  #create-event {
-    @apply flex flex-col gap-6;
-
+  #book-event {
     form {
       @apply flex flex-col gap-6;
 
@@ -273,9 +270,18 @@
   }
 
   #create-event {
-    @apply sm:w-lg flex sm:self-center md:w-4xl;
+    @apply flex flex-col gap-8 sm:w-lg sm:self-center md:w-2xl text-center;
+
     .form-card {
-      @apply bg-dark-100 border-dark-200 card-shadow flex w-full flex-col gap-3 rounded-[10px] border px-5 py-5;
+      @apply bg-dark-100 border-dark-200 card-shadow flex w-full flex-col gap-2.5 rounded-[10px] border px-5 py-5 text-left;
+
+      .form-input {
+        @apply bg-dark-200 rounded-[6px] px-5 py-2.5 text-white focus:outline-none focus:ring-0 focus:border-transparent;
+      }
+
+      button {
+        @apply bg-primary hover:bg-primary/90 w-full cursor-pointer items-center justify-center rounded-[6px] px-4 py-2.5 text-lg font-semibold text-black;
+      }
     }
   }
 }
