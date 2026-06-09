@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '*.x02.me' },
     ] as any,
   },
+  allowedDevOrigins: ['0.0.0.0/0']
 };
 
 export default nextConfig;

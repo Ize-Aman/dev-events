@@ -1,23 +1,29 @@
 'use client';
 
+import { createBooking } from "@/lib/actions/booking.action";
 import { useState } from "react";
 
-const BookEvent = () => {
+const BookEvent = ({ slug, eventId }: { eventId: string, slug: string }) => {
     const [email, setEmail] = useState('');
     const [submitted, setSubmitted] = useState(false);
+    const [registered, setRegistered] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        setTimeout(() => {
-            setSubmitted(true);
-        }, 1000)
+        const { success, error } = await createBooking({ eventId, email })
+
+        if (success) setSubmitted(true);
+        else if (error?.name === 'MongoServerError') setRegistered(true);
+        else console.error('Booking creation failed', error);
     }
 
     return (
         <div id="book-event">
             {submitted ? (
                 <p className="text-sm">Thank you for signing up!</p>
+            ) : registered ? (
+                <p className="text-sm">Email already registered!</p>
             ) : (
                 <form onSubmit={handleSubmit}>
                     <div>
