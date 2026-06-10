@@ -43,12 +43,12 @@ const EventTags = ({ tags }: { tags: string[] }) => {
 
 const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
     'use cache'
-    const bookings = await Booking.countDocuments()
     const { slug } = await params;
 
     const request = fetch(`${BASE_URL}/api/events/${slug}`);
     const { event } = await (await request).json();
     const { title, description, image, overview, date, time, location, mode, agenda, audience, organizer, tags } = event;
+    const bookings = await Booking.countDocuments({ eventId: event._id })
 
     const similarEvents: IEvent[] = await getSimilarEvents(slug);
 
