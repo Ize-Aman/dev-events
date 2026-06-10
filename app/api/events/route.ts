@@ -39,8 +39,20 @@ export async function POST(req: NextRequest) {
         const file = (theFormData.get('image')) as File | null;
         if (!file) return NextResponse.json({ message: 'image file is required' }, { status: 400 });
 
-        let tags = JSON.parse(theFormData.get('tags') as string);
-        let agenda = JSON.parse(theFormData.get('agenda') as string);
+        const rawTags = theFormData.get('tags');
+        const rawAgenda = theFormData.get('agenda');
+        let tags: string[] = [];
+        let agenda: string[] = [];
+
+        try {
+            tags = rawTags ? JSON.parse(String(rawTags)) : [];
+            agenda = rawAgenda ? JSON.parse(String(rawAgenda)) : [];
+        } catch {
+            return NextResponse.json(
+                { message: 'tags and agenda must be valid JSON arrays' },
+                { status: 400 }
+            );
+        }
 
         if (!X02_Key) {
             return NextResponse.json({ message: 'x02 api key is missing' }, { status: 500 });
@@ -67,6 +79,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(
                 {
                     message: 'failed to upload image to x02',
+                    status: postImage.status,
                     error: uploadResult?.error || 'invalid upload response',
                 },
                 { status: 502 }
@@ -86,8 +99,15 @@ export async function POST(req: NextRequest) {
 
         const moveImage = await moveToFolder.json();
 
-        if (!moveImage || !moveImage.success) {
-            return NextResponse.json({ message: 'unable to move file to folder' }, { status: 500 })
+        if (!moveToFolder.ok || !moveImage || !moveImage.success) {
+            return NextResponse.json(
+                {
+                    message: 'unable to move file to folder',
+                    status: moveToFolder.status,
+                    error: moveImage?.error || 'invalid move response',
+                },
+                { status: 502 }
+            )
         }
 
         /*

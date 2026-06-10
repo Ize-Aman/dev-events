@@ -11,3 +11,26 @@ export const getSimilarEvents = async (slug: string) => {
         return []
     }
 }
+
+export const createEvent = async ({ formData }: { formData: FormData }) => {
+    try {
+        const response = await fetch('/api/events', {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        return ({
+            success: true,
+            data: data
+        })
+    } catch (e) {
+        console.error('Event creation failed', e);
+        const error = e instanceof Error
+            ? { name: e.name, message: e.message }
+            : { name: 'Error', message: 'Unknown error' }
+
+        return { success: false, error: error }
+    }
+}
