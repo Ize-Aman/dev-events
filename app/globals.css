@@ -285,3 +285,35 @@
     }
   }
 }
+
+#admin {
+  @apply overflow-hidden;
+  button {
+    @apply bg-primary hover:bg-primary/90 not-sm:w-full cursor-pointer items-center justify-center rounded-[6px] px-4 py-1.5 not-sm:mb-6 text-lg font-semibold text-black;
+  }
+
+  table {
+    @apply bg-[#0d161a] border border-[#17303a] rounded-xl card-shadow min-w-max md:min-w-full md:max-w-full border-separate border-spacing-0 overflow-hidden;
+
+    .head {
+      th {
+        @apply bg-[#182830] border-b border-[#17303a] border-r px-4 py-3 text-left text-[13px] font-light text-light-200;
+      }
+    }
+
+    .body {
+      td {
+        @apply bg-[#0d161a] border-b border-[#17303a] border-r px-4 py-4 align-middle text-light-100;
+
+        .poster {
+          @apply inline;
+        }
+      }
+    }
+
+    .head th:last-child,
+    .body td:last-child {
+      @apply border-r-0;
+    }
+  }
+}
