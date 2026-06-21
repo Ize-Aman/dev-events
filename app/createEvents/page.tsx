@@ -1,8 +1,11 @@
 'use client'
+import { BouncingDots } from "@/components/bouncing-dots";
 import Tags from "@/components/Tags";
 import React, { useState } from "react";
 
 const Page = () => {
+    const [isLoading, setIsLoading] = useState(false);
+
     const [title, setTitle] = useState('');
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
@@ -18,6 +21,7 @@ const Page = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsLoading(true);
         const formData = new FormData();
 
         formData.append("title", title);
@@ -49,6 +53,8 @@ const Page = () => {
             console.log('event created', data);
         } catch (e) {
             console.error('Event creation failed', e);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -130,7 +136,11 @@ const Page = () => {
                         onChange={(e) => setOverview(e.target.value)}
                     />
 
-                    <button type="submit">Save Event</button>
+                    <button type="submit">
+                        {
+                            isLoading ? <BouncingDots /> : <p>Save Event</p>
+                        }
+                    </button>
 
                 </div>
             </form>
