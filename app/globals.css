@@ -288,7 +288,7 @@
 
 #admin {
   @apply overflow-hidden;
-  button {
+  .btn-create {
     @apply bg-primary hover:bg-primary/90 not-sm:w-full cursor-pointer items-center justify-center rounded-[6px] px-4 py-1.5 not-sm:mb-6 text-lg font-semibold text-black;
   }
 
@@ -297,13 +297,17 @@
 
     .head {
       th {
-        @apply bg-[#182830] border-b border-[#17303a] border-r px-4 py-3 text-left text-[13px] font-light text-light-200;
+        @apply bg-[#182830] border-none border-[#17303a] border-r px-4 py-3 text-left text-[13px] font-light text-light-200;
       }
     }
 
     .body {
       td {
         @apply bg-[#0d161a] border-b border-[#17303a] border-r px-4 py-4 align-middle text-light-100;
+
+        .btn-delete{
+          @apply text-white cursor-pointer;
+        }
 
         .poster {
           @apply inline;

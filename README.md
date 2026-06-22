@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DevEvents 🎟️
 
-## Getting Started
+A full-stack event management platform built with Next.js, TypeScript, MongoDB Atlas, and Tailwind CSS.
 
-First, run the development server:
+DevEvents allows users to discover and register for developer-focused events, while administrators can manage events through a dedicated dashboard. The project was built to explore modern full-stack development using the Next.js ecosystem and third-party integrations.
+
+---
+
+## 🚀 Features
+
+* Browse and view event details
+* Event registration system
+* Admin dashboard for event management
+* Dynamic event pages using slug-based routing
+* Image uploads with X02.me
+* PostHog analytics integration
+* Responsive design for desktop and mobile
+
+---
+
+## 🛠️ Tech Stack
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+* shadcn/ui
+* MongoDB Atlas
+* Mongoose
+* PostHog
+* X02.me
+* Vercel
+
+---
+
+## 📚 What I Learned
+
+Through this project, I gained hands-on experience with:
+
+* Next.js App Router
+* Dynamic routing and server components
+* Building APIs with Route Handlers
+* MongoDB Atlas and Mongoose
+* File upload workflows
+* TypeScript in full-stack applications
+* Analytics integration with PostHog
+* Deploying production applications with Vercel
+
+---
+
+## 🎯 Purpose of the Project
+
+This project was built to strengthen my understanding of full-stack web development and modern React frameworks. It gave me practical experience working with databases, APIs, analytics, image uploads, and production deployment.
+
+---
+
+## ⚡ Getting Started
 
 ```bash
+git clone <repository-url>
+cd dev-events
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌐 Live Demo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Deployed and available online for real-world testing and usage.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🙏 Acknowledgements
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Special thanks to the technologies and tools that made this project possible:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* Next.js
+* MongoDB Atlas
+* PostHog
+* X02.me
+* Vercel
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+And of course coffee! ☕
