@@ -6,8 +6,6 @@ import DeleteBtn from "@/components/DeleteBtn"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const Page = async () => {
-    'use cache';
-
     const response = await fetch(`${BASE_URL}/api/events`);
     const { events } = await response.json();
 

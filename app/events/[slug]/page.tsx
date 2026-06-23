@@ -42,7 +42,6 @@ const EventTags = ({ tags }: { tags: string[] }) => {
 };
 
 const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
-    'use cache'
     const { slug } = await params;
 
     const request = fetch(`${BASE_URL}/api/events/${slug}`);
