@@ -1,10 +1,8 @@
 'use client';
 
 import { deleteEvent } from "@/lib/actions/event.actions";
+import { Check, X } from "lucide-react";
 import { useState } from "react";
-
-import { FaCheck } from "react-icons/fa6";
-import { RxCross2 } from "react-icons/rx";
 
 const Page = ({ eventSlug }: { eventSlug: string }) => {
   const [isClicked, setIsClicked] = useState(false);
@@ -25,8 +23,8 @@ const Page = ({ eventSlug }: { eventSlug: string }) => {
           ? <div className="flex flex-col">
           Are you sure?
           <div className="flex flex-row gap-6">
-            <button type="submit" className="btn-delete"><FaCheck /></button> 
-            <button type="button" className="btn-delete" onClick={(e) => {e.stopPropagation(); setIsClicked(false);}}><RxCross2 /></button>
+            <button type="submit" className="btn-delete"><Check size={18} /></button> 
+            <button type="button" className="btn-delete" onClick={(e) => {e.stopPropagation(); setIsClicked(false);}}><X size={18} /></button>
           </div>
           </div>
           : <>Delete</>}
