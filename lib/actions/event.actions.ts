@@ -11,3 +11,17 @@ export const getSimilarEvents = async (slug: string) => {
         return []
     }
 }
+
+export const deleteEvent = async (slug: string) => {
+    try {
+        connectDB();
+        await Event.deleteOne({slug});
+        return {success: true};
+    } catch (e) {
+        const error = e instanceof Error
+            ? {name: e.name, message: e.message}
+            : {name: 'Error', message: 'unknown error'};
+        
+        return {success: false, error};
+    }
+}

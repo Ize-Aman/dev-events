@@ -2,11 +2,10 @@ import { Booking } from "@/database";
 import { IEvent } from "@/database/event.model";
 import Image from "next/image";
 import Link from "next/link";
+import DeleteBtn from "@/components/DeleteBtn"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const Page = async () => {
-    'use cache';
-
     const response = await fetch(`${BASE_URL}/api/events`);
     const { events } = await response.json();
 
@@ -14,7 +13,7 @@ const Page = async () => {
         <div id="admin">
             <div className="flex flex-col gap-4 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
                 <h1 className="text-[35px] sm:text-[48px]">Event Management</h1>
-                <button><Link href={`${BASE_URL}/createEvents`}>Add new Event</Link></button>
+                <button className="btn-create"><Link href={`${BASE_URL}/createEvents`}>Add new Event</Link></button>
             </div>
             <div className="overflow-auto">
                 <table>
@@ -35,7 +34,7 @@ const Page = async () => {
                                     <td>{event.date}</td>
                                     <td>{event.time}</td>
                                     <td>{bookings}</td>
-                                    <td>Delete</td>
+                                    <td><DeleteBtn eventSlug={event.slug} /></td>
                                 </tr>
                             )
                         })}

@@ -95,7 +95,7 @@
 }
 
 @utility text-gradient {
-  @apply to-blue bg-gradient-to-b from-white via-white bg-clip-text font-semibold text-transparent;
+  @apply to-blue bg-linear-to-b from-white via-white bg-clip-text font-semibold text-transparent;
 }
 
 @utility glass {
@@ -175,7 +175,7 @@
     @apply flex flex-col gap-3;
 
     .poster {
-      @apply h-[300px] w-full rounded-lg object-cover;
+      @apply h-75 w-full rounded-lg object-cover;
     }
 
     .title {
@@ -204,10 +204,10 @@
       @apply flex w-full flex-col lg:flex-row gap-12 items-start mt-12 max-lg:items-center;
 
       .content {
-        @apply flex flex-[2] flex-col gap-8 max-lg:w-full;
+        @apply flex flex-2 flex-col gap-8 max-lg:w-full;
 
         .banner {
-          @apply max-h-[457px] w-full rounded-lg object-cover;
+          @apply max-h-114.25 w-full rounded-lg object-cover;
         }
 
         .agenda {
@@ -288,7 +288,7 @@
 
 #admin {
   @apply overflow-hidden;
-  button {
+  .btn-create {
     @apply bg-primary hover:bg-primary/90 not-sm:w-full cursor-pointer items-center justify-center rounded-[6px] px-4 py-1.5 not-sm:mb-6 text-lg font-semibold text-black;
   }
 
@@ -297,13 +297,17 @@
 
     .head {
       th {
-        @apply bg-[#182830] border-b border-[#17303a] border-r px-4 py-3 text-left text-[13px] font-light text-light-200;
+        @apply bg-[#182830] border-none border-[#17303a] border-r px-4 py-3 text-left text-[13px] font-light text-light-200;
       }
     }
 
     .body {
       td {
         @apply bg-[#0d161a] border-b border-[#17303a] border-r px-4 py-4 align-middle text-light-100;
+
+        .btn-delete{
+          @apply text-white cursor-pointer;
+        }
 
         .poster {
           @apply inline;
