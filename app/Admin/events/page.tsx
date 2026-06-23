@@ -2,6 +2,7 @@ import { Booking } from "@/database";
 import { IEvent } from "@/database/event.model";
 import Image from "next/image";
 import Link from "next/link";
+import DeleteBtn from "@/components/DeleteBtn"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const Page = async () => {
@@ -35,7 +36,7 @@ const Page = async () => {
                                     <td>{event.date}</td>
                                     <td>{event.time}</td>
                                     <td>{bookings}</td>
-                                    <td><button className="btn-delete">Delete</button></td>
+                                    <td><DeleteBtn eventSlug={event.slug} /></td>
                                 </tr>
                             )
                         })}
