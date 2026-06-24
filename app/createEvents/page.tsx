@@ -2,6 +2,7 @@
 import { BouncingDots } from "@/components/bouncing-dots";
 import Tags from "@/components/Tags";
 import React, { useState } from "react";
+import {toast} from "sonner"
 
 const Page = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -39,16 +40,25 @@ const Page = () => {
         formData.append("organizer", organizer);
 
         try {
-            const response = await fetch('/api/events', {
+            const promise = fetch('/api/events', {
                 method: "POST",
                 body: formData
             });
+
+            toast.promise(promise, {
+                loading: 'Creating Event...',
+                success: 'Event Created Successfully!',
+                error: 'Something went wrong! Failed to Create event.'
+            });
+
+            const response = await promise;
 
             const data = await response.json();
             if (!response.ok) {
                 console.error(`Create event failed (${response.status})`, data);
                 return;
             }
+            //TODO Test Shadcn toast
 
             console.log('event created', data);
         } catch (e) {
@@ -136,12 +146,7 @@ const Page = () => {
                         onChange={(e) => setOverview(e.target.value)}
                     />
 
-                    <button type="submit">
-                        {
-                            isLoading ? <BouncingDots /> : <p>Save Event</p>
-                        }
-                    </button>
-
+                    <button type="submit" disabled={isLoading} className={`${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}>Save Event</button>
                 </div>
             </form>
         </div>

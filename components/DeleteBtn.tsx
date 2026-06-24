@@ -23,6 +23,7 @@ const Page = ({ eventSlug }: { eventSlug: string }) => {
           ? <div className="flex flex-col">
           Are you sure?
           <div className="flex flex-row gap-6">
+            //TODO Add shadcn alert on error
             <button type="submit" className="btn-delete"><Check size={18} /></button> 
             <button type="button" className="btn-delete" onClick={(e) => {e.stopPropagation(); setIsClicked(false);}}><X size={18} /></button>
           </div>
