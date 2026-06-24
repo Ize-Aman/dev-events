@@ -58,7 +58,6 @@ const Page = () => {
                 console.error(`Create event failed (${response.status})`, data);
                 return;
             }
-            //TODO Test Shadcn toast
 
             console.log('event created', data);
         } catch (e) {
