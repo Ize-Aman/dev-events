@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import LightRays from "@/components/LightRays";
 import Navbar from "@/components/Navbar";
 import { PostHogProvider } from "@/components/PostHogProvider";
+import { Toaster } from "sonner";
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -55,6 +56,7 @@ export default function RootLayout({
             {children}
           </main>
         </PostHogProvider>
+        <Toaster theme="dark" position="top-center" offset={70} mobileOffset={70} />
       </body>
     </html>
   );

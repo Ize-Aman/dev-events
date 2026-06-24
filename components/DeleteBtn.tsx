@@ -3,20 +3,31 @@
 import { deleteEvent } from "@/lib/actions/event.actions";
 import { Check, X } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const Page = ({ eventSlug }: { eventSlug: string }) => {
   const [isClicked, setIsClicked] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleDelete = async (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    toast.promise(
+      deleteEvent(eventSlug),
+      {
+        loading: 'Deleting Event...',
+        success: 'Event Deleted!',
+        error: "Can't delete event. An error occured!"
+      }
+    );
+    
     const { success, error } = await deleteEvent(eventSlug);
-
-    if (success) console.log('event deleted')
-    else console.log('Can not delete event', error)
+ 
+    if (success) setTimeout(() => window.location.reload(), 2000);
+    // else console.err('Can not delete event', error)
   }
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleDelete}>
         <div onClick={() => setIsClicked(true)} className="btn-delete">
           {
           isClicked
