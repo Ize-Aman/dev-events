@@ -3,6 +3,7 @@
 import { createBooking } from "@/lib/actions/booking.action";
 import posthog from "posthog-js";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const BookEvent = ({ slug, eventId }: { eventId: string, slug: string }) => {
     const [email, setEmail] = useState('');
@@ -11,11 +12,11 @@ const BookEvent = ({ slug, eventId }: { eventId: string, slug: string }) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         const { success, error } = await createBooking({ eventId, email })
 
         if (success) {
             setSubmitted(true);
+            toast.success('Booked successfully!')
             posthog.capture('event Booked', {eventId, slug, email});
         }
         else if (error?.name === 'MongoServerError') setRegistered(true);
