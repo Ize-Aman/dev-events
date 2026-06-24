@@ -68,7 +68,7 @@ npm run dev
 
 ## 🌐 Live Demo
 
-Deployed and available online for real-world testing and usage.
+Deployed and available online.
 
 ---
 
