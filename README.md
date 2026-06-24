@@ -68,7 +68,7 @@ npm run dev
 
 ## 🌐 Live Demo
 
-Deployment Coming Soon!
+Deployed and available online.
 
 ---
 
