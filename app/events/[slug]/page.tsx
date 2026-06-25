@@ -5,8 +5,9 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import EventCard from "@/components/EventCard";
 import { Booking } from "@/database";
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+import { Event } from "@/database";
+import connectDB from "@/lib/mongodb";
+import { connection } from "next/server";
 
 const EventDetailItem = ({ icon, label, alt }: { icon: string, label: string, alt: string }) => {
     return (
@@ -44,8 +45,11 @@ const EventTags = ({ tags }: { tags: string[] }) => {
 const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
     const { slug } = await params;
 
-    const request = fetch(`${BASE_URL}/api/events/${slug}`);
-    const { event } = await (await request).json();
+    await connection();
+    await connectDB();
+    const event = await Event.findOne({ slug }).lean();
+    if (!event) return notFound();
+
     const { title, description, image, overview, date, time, location, mode, agenda, audience, organizer, tags } = event;
     const bookings = await Booking.countDocuments({ eventId: event._id })
 
