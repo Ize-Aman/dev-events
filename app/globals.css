@@ -321,3 +321,28 @@
     }
   }
 }
+
+/*
+Source - https://stackoverflow.com/a/69410151
+Posted by juliomalves, modified by community. See post 'Timeline' for change history
+Retrieved 2026-06-25, License - CC BY-SA 4.0
+*/
+
+@layer utilities {
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply rounded-[100vh] bg-[#11312e];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#17423e] border-none rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#1c4a46]
+  }
+}
+
