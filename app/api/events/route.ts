@@ -13,7 +13,7 @@ export async function GET() {
 
         return NextResponse.json({ message: 'Events fetched successfully', events }, { status: 200 });
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return NextResponse.json(
             { message: "Failed to fetch events", error: error instanceof Error ? error.message : "Unknown error" },
             { status: 500 }
@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ message: 'event created successfully', event: createdEvent }, { status: 201 })
 
     } catch (e: unknown) {
-        console.log(e);
+        // console.log(e);
         return NextResponse.json(
             {
                 message: 'Event creation failed',

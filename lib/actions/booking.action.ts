@@ -11,7 +11,7 @@ export const createBooking = async ({ eventId, email }: { eventId: string, email
 
         return { success: true, booking: JSON.parse(JSON.stringify(booking)) };
     } catch (e) {
-        console.error('creating booking failed', e);
+        // console.error('creating booking failed', e);
 
         const error = e instanceof Error
             ? { name: e.name, message: e.message }

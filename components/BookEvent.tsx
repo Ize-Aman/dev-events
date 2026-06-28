@@ -21,7 +21,7 @@ const BookEvent = ({ slug, eventId }: { eventId: string, slug: string }) => {
         }
         else if (error?.name === 'MongoServerError') setRegistered(true);
         else {
-            console.error('Booking creation failed', error);
+            // console.error('Booking creation failed', error);
             posthog.captureException(error);
         }
     }

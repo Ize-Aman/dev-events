@@ -1,5 +1,4 @@
 'use client'
-import { BouncingDots } from "@/components/bouncing-dots";
 import Tags from "@/components/Tags";
 import React, { useState } from "react";
 import {toast} from "sonner"
@@ -55,13 +54,13 @@ const Page = () => {
 
             const data = await response.json();
             if (!response.ok) {
-                console.error(`Create event failed (${response.status})`, data);
+                // console.error(`Create event failed (${response.status})`, data);
                 return;
             }
 
-            console.log('event created', data);
+            // console.log('event created', data);
         } catch (e) {
-            console.error('Event creation failed', e);
+            // console.error('Event creation failed', e);
         } finally {
             setIsLoading(false);
         }
